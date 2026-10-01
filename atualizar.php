@@ -3,34 +3,35 @@
 
     $id = intval($_POST["id"]);
     $cliente = $_POST["cliente"];
-    $equipamento = $_POST["equipamento"]
-    $problema = $_POST["problema"]
-    $data_entrada = $_POST["data_entrega"]
+    $equipamento = $_POST["equipamento"];
+    $problema = $_POST["problema"];
+    $data_entrada = $_POST["data_entrada"];
     $status = $_POST["status"];
 
-    $sql = "update ordens_servico
-            set cliente = ?,
+    $sql = "UPDATE ordens_servico
+            SET cliente = ?,
                 equipamento = ?,
                 problema = ?,
                 data_entrada = ?,
-                status = ? 
-            where id = ?";
-    $stmt = $conexao -> prepara($sql);
+                status = ?
+            WHERE id = ?";
+
+    $stmt = $conexao -> prepare($sql);
+
     $stmt -> bind_param(
         "sssssi",
         $cliente,
         $equipamento,
         $problema,
         $data_entrada,
-        $status
+        $status,
         $id
     );
-    
-    if($stmt->execute()){
-        header ("Location:index.php");
-        exit; 
-    } else {
-        eho "Erro ao atualizar.";
-    }
 
+    if ($stmt->execute()){
+        header("Location: index.php");
+        exit;
+    } else {
+        echo "Erro ao atualizar.";
+    }    
 ?>

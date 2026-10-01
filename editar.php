@@ -1,57 +1,60 @@
 <?php
-    include "config/conexao.php"
+    include "config/conexao.php";
 
-// o intval é para garantir que o numero venha inteiro e senha guarde na id
-    $id = intval($_GET["id"])
+    $id = intval($_GET["id"]);
 
-    $sql = "select * from ordens_serviço";
+    $sql = "SELECT * FROM ordens_servico WHERE
+            id = ?";
+    
     $stmt = $conexao->prepare($sql);
     $stmt->bind_param("i", $id);
     $stmt->execute();
 
     $resultado = $stmt->get_result();
     $ordem = $resultado->fetch_assoc();
+?>
 
-?><!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="pt-br">
 <head>
-    <meta charset="pt-br">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar ordem</title>
+    <title>Editar Ordem</title>
     <link rel="stylesheet" href="estilo/estilo.css">
 </head>
 <body>
     <div class="container">
-        <h1>Editar ordem de serviço</h1>
-        <form action="atualizar.php" method="post">
+        <h1>Editar Ordem de Serviço</h1>
+        <form action="atualizar.php" method="POST">
             <input 
                 type="hidden"
                 name="id"
-                value="<?php echo $ordem ["id"];?>"
+                value="<?php echo $ordem["id"];?>"
             >
             <label>Cliente</label>
-             <input 
+            <input
                 type="text"
                 name="cliente"
-                value="<?php echo htmlspecialchars ($ordem ["cliente"]);?>"
+                value="<?php echo htmlspecialchars($ordem["cliente"]);?>"
                 required
             >
             <label>Equipamento</label>
-            <input 
+            <input
                 type="text"
                 name="equipamento"
-                value="<?php echo htmlspecialchars ($ordem ["equipamento"]);?>"
+                value="<?php echo htmlspecialchars($ordem["equipamento"]);?>"
                 required
             >
             <label>Problema</label>
             <textarea name="problema" required>
-                <?php echo htmlspecialchars ($ordem ["problema"]);?>"
+                <?php echo htmlspecialchars($ordem["problema"]);?>            
             </textarea>
+
             <label>Data de entrada</label>
-            <input 
+            <input
                 type="date"
                 name="data_entrada"
-                value="<?php echo ["data_entrada"];?>"
+                value="<?php echo $ordem["data_entrada"]; ?>"
                 required
             >
             <label>Status</label>
@@ -63,9 +66,7 @@
             </select>
 
             <button type="submit">Atualizar</button>
-            
         </form>
     </div>
-    
 </body>
 </html>
